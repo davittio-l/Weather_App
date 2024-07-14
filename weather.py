@@ -19,10 +19,15 @@ def get_weather_data(lat, lon):
     }
 
     response = requests.get(BASE_URL, params=params)
+
+    if response.status_code != 200:
+        raise Exception(f"Error fething data: {response.status_code} - {response.text}")
     data = response.json()
 
+    # Debugging: Print response
     print("API Response:")
     print(data)
+
     return data
 
 def process_weather_data(data):
