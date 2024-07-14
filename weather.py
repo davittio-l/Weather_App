@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 API_KEY = os.getenv('API_KEY')
-BASE_URL = 'http://api.openweathermap.org/data2.5/onecall'
+BASE_URL = 'http://api.openweathermap.org/data/2.5/onecall'
 
 def get_weather_data(lat, lon):
     params = {
@@ -15,13 +15,20 @@ def get_weather_data(lat, lon):
         'lon': lon,
         'exclude': 'minutely,hourly',
         'appid': API_KEY,
+        'units': 'imperial'
     }
 
     response = requests.get(BASE_URL, params=params)
     data = response.json()
+
+    print("API Response:")
+    print(data)
     return data
 
 def process_weather_data(data):
+    if 'daily' not in data:
+        raise ValueError("The API response does not contain 'daily' data")
+    
     daily_data = data['daily']
     weather_records = []
 
@@ -35,9 +42,13 @@ def process_weather_data(data):
     return df
 
 def main():
-    lat, lon = 35.7565, -83.9705
+    lat, lon = 35.7565, -83.9705 #Maryville TN
+
+    # Fetching and processing data
     weather_data = get_weather_data(lat, lon)
     df = process_weather_data(weather_data)
+
+    # Saving data to csv file
     df.to_csv('weather_data.csv', index=False)
     print("Weather data saved to weather_data.csv")
 
