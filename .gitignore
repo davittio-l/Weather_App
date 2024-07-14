@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+
+# Environment Variables
+.env
+
+# API Keys
+apikey.txt
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Logs
+*.log
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Virtual Environment
+venv/
